@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenData.Web", "GenData.Web\GenData.Web.csproj", "{38E28190-7167-4478-AB1D-24E64C3D9859}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenData.Reflector", "GenData.Reflector\GenData.Reflector.csproj", "{8A58E890-78D2-4CE5-9F46-0918D904EE2C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{38E28190-7167-4478-AB1D-24E64C3D9859}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38E28190-7167-4478-AB1D-24E64C3D9859}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38E28190-7167-4478-AB1D-24E64C3D9859}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A58E890-78D2-4CE5-9F46-0918D904EE2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A58E890-78D2-4CE5-9F46-0918D904EE2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A58E890-78D2-4CE5-9F46-0918D904EE2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A58E890-78D2-4CE5-9F46-0918D904EE2C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

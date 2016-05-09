@@ -1,0 +1,4 @@
+D:\My Work\GIT_HUB\GenData\GenData\GenData.Reflector\bin\Debug\GenData.Reflector.dll
+D:\My Work\GIT_HUB\GenData\GenData\GenData.Reflector\bin\Debug\GenData.Reflector.pdb
+D:\My Work\GIT_HUB\GenData\GenData\GenData.Reflector\obj\Debug\GenData.Reflector.dll
+D:\My Work\GIT_HUB\GenData\GenData\GenData.Reflector\obj\Debug\GenData.Reflector.pdb
