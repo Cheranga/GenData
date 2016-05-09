@@ -35,6 +35,5 @@ D:\My Work\GIT_HUB\GenData\GenData\GenData.Web\bin\System.Web.WebPages.Deploymen
 D:\My Work\GIT_HUB\GenData\GenData\GenData.Web\bin\System.Web.WebPages.Razor.xml
 D:\My Work\GIT_HUB\GenData\GenData\GenData.Web\bin\Antlr3.Runtime.pdb
 D:\My Work\GIT_HUB\GenData\GenData\GenData.Web\bin\Newtonsoft.Json.xml
-D:\My Work\GIT_HUB\GenData\GenData\GenData.Web\obj\Debug\GenData.Web.csprojResolveAssemblyReference.cache
 D:\My Work\GIT_HUB\GenData\GenData\GenData.Web\obj\Debug\GenData.Web.dll
 D:\My Work\GIT_HUB\GenData\GenData\GenData.Web\obj\Debug\GenData.Web.pdb
