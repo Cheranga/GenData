@@ -1,28 +1,27 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace GenData.Reflector
 {
-    public class Reflector
+    public class PocoClassReflector : ReflectorStrategy
     {
         private readonly Dictionary<Type, TypeMetaInfo> referenceTypeInstancesMappedByType;
 
-        public Reflector()
+        public PocoClassReflector():this(null)
         {
-            this.referenceTypeInstancesMappedByType = new Dictionary<Type, TypeMetaInfo>();
-        } 
-
-        public static bool IsCollection(Type type)
-        {
-            var isCollectionType = type.GetInterfaces().Any(x => x.IsGenericType ? x.GetGenericTypeDefinition() == typeof(IEnumerable<>) : x == typeof(IEnumerable));
-
-            return isCollectionType;
+            
         }
 
-        public TypeMetaInfo GetMetaInfoForType(Type type)
+        public PocoClassReflector(Dictionary<Type, TypeMetaInfo> referenceTypeInstancesMappedByType)
+        {
+            this.referenceTypeInstancesMappedByType = referenceTypeInstancesMappedByType?? new Dictionary<Type, TypeMetaInfo>();
+        }
+
+        public override TypeMetaInfo GetMetaInfoForType(Type type)
         {
             Func<PropertyInfo, TypeMetaInfo> action = null;
 
@@ -49,7 +48,7 @@ namespace GenData.Reflector
                         Dummy = new TypeMetaInfo
                         {
                             Name = "Child",
-                            TypeName = typeof (string).FullName,
+                            TypeName = typeof(string).FullName,
                         }
                     };
 
@@ -59,7 +58,7 @@ namespace GenData.Reflector
                 {
                     var collectionElementType = isGeneric ? propertyType.GetGenericArguments().FirstOrDefault() : propertyType.GetElementType();
 
-                    var collectionElementTypeIsClass = collectionElementType.IsClass && collectionElementType != typeof (string);
+                    var collectionElementTypeIsClass = collectionElementType.IsClass && collectionElementType != typeof(string);
 
                     if (referenceTypeInstancesMappedByType.ContainsKey(collectionElementType))
                     {
@@ -151,48 +150,6 @@ namespace GenData.Reflector
             };
 
             return objInstance;
-
-        }
-
-        public object CreateObject(string assemblyPath, TypeMetaInfo typeMetaInfo)
-        {
-            if (typeMetaInfo == null)
-            {
-                return null;
-            }
-
-            var assembly = Assembly.LoadFrom(assemblyPath);
-            if (assembly == null)
-            {
-                return new NullReferenceException("Assembly cannot be loaded");
-            }
-
-            if (typeMetaInfo.IsClass)
-            {
-                var instance = Activator.CreateInstance(Type.GetType(typeMetaInfo.TypeName));
-
-            }
-
-            //Func<Assembly, TypeMetaInfo, object> getObjectFunc = (ass, metaInfo) =>
-            //{
-            //    if (ass == null || metaInfo == null)
-            //    {
-            //        throw new NullReferenceException("metaInfo is null");
-            //    }
-
-            //    var isClass = metaInfo.IsClass;
-            //    if (isClass)
-            //    {
-            //        var type = ass.GetType(metaInfo.TypeName);
-            //        type.defa
-
-            //    }
-                
-            //    return null;
-            //};
-
-
-            return null;
         }
     }
 }

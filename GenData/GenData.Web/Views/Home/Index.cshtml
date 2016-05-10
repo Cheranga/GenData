@@ -5,7 +5,10 @@
 <h3>@ViewBag.Message</h3>
 
 
-<button type="button" class="btn btn-primary" data-bind="click:submitData">Submit</button>
+<button type="button" class="btn btn-primary" data-bind="click:submitData">
+    <span class="glyphicon glyphicon-upload"></span>
+    Submit
+</button>
 <p></p>
 <div class="col-sm-6" data-bind="template: { name: 'formElementNodeTemplate', data: $data }"></div>
 
@@ -17,8 +20,12 @@
                 <li>
                     <div style="margin-top: 5px;">
                         <div>
-                            <a data-bind="visible:$data.isCollection,click:$data.addNew" title="Add New" class="btn btn-xs btn-info">Add New</a>
-                            <a data-bind="visible:$data.canDelete,click:$parent.removeNode" title="Delete" class="btn btn-xs btn-danger">Delete</a>
+                            <a data-bind="visible:$data.isCollection,click:$data.addNew" title="Add New" class="btn btn-xs btn-warning">
+                                <span class="glyphicon glyphicon-plus"></span>Add New
+                            </a>
+                            <a data-bind="visible:$data.canDelete,click:$parent.removeNode" title="Delete" class="btn btn-xs btn-danger">
+                                <span class="glyphicon glyphicon-remove"></span>    
+                            Delete</a>
                             <span data-bind="text:$data.name" class="text-capitalize"></span>
 
                             <input type="text" class="form-control" data-bind="visible:$data.isEditable,value:$data.value" />

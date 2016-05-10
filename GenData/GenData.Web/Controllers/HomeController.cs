@@ -45,7 +45,12 @@ namespace GenData.Web.Controllers
                 return Json(null, JsonRequestBehavior.AllowGet);
             }
 
-            var metaInfoForType = new Reflector.Reflector().GetMetaInfoForType(typeToRefer);
+            //
+            // TODO: Add Dipendency Injection
+            //
+            var reflector = new PocoClassReflector();
+
+            var metaInfoForType = reflector.GetMetaInfoForType(typeToRefer);
 
             return new CamelCaseJsonResult(metaInfoForType);
         }
