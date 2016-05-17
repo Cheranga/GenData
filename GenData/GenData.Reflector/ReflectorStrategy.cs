@@ -9,7 +9,7 @@ namespace GenData.Reflector
     {
         public abstract TypeMetaInfo GetMetaInfoForType(Type type);
 
-        protected bool IsCollection(Type type)
+        protected virtual bool IsCollection(Type type)
         {
             var isCollectionType = type.GetInterfaces().Any(x => x.IsGenericType ? x.GetGenericTypeDefinition() == typeof(IEnumerable<>) : x == typeof(IEnumerable));
 
