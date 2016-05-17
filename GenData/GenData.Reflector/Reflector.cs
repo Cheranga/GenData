@@ -70,7 +70,7 @@ namespace GenData.Reflector
                         dummy = new TypeMetaInfo
                         {
                             Name = collectionElementType.Name,
-                            TypeName = collectionElementType.FullName,
+                            TypeName = collectionElementType.AssemblyQualifiedName,
                             IsClass = collectionElementTypeIsClass,
                             IsCollection = IsCollection(collectionElementType),
                             IsGeneric = collectionElementType.IsGenericType,
@@ -84,7 +84,7 @@ namespace GenData.Reflector
                     instance = new TypeMetaInfo
                     {
                         Name = propertyInfo.Name,
-                        TypeName = propertyType.FullName,
+                        TypeName = propertyType.AssemblyQualifiedName,
                         IsClass = propertyType.IsClass,
                         IsCollection = true,
                         IsGeneric = propertyType.IsGenericType,
@@ -108,7 +108,7 @@ namespace GenData.Reflector
                         instance = new TypeMetaInfo
                         {
                             Name = propertyInfo.Name,
-                            TypeName = propertyType.FullName,
+                            TypeName = propertyType.AssemblyQualifiedName,
                             IsClass = propertyType.IsClass,
                             IsCollection = IsCollection(propertyType),
                             IsGeneric = propertyType.IsGenericType,
@@ -127,7 +127,7 @@ namespace GenData.Reflector
                 instance = new TypeMetaInfo
                 {
                     Name = propertyInfo.Name,
-                    TypeName = propertyType.FullName,
+                    TypeName = propertyType.AssemblyQualifiedName,
                     IsClass = false,
                     IsCollection = false,
                     IsGeneric = propertyType.IsGenericType,
@@ -143,7 +143,7 @@ namespace GenData.Reflector
             var objInstance = new TypeMetaInfo
             {
                 Name = type.Name,
-                TypeName = type.FullName,
+                TypeName = type.AssemblyQualifiedName,
                 IsClass = type.IsClass,
                 IsCollection = IsCollection(type),
                 IsGeneric = type.IsGenericType,

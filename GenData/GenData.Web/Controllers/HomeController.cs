@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml;
 using GenData.Reflector;
 using GenData.Web.Core;
 
@@ -58,7 +61,23 @@ namespace GenData.Web.Controllers
         [HttpPost]
         public ActionResult CreateObjectRepresentation([ModelBinder(typeof(TreeNodeModelBinder))] TypeMetaInfo typeMetaInfo)
         {
-            return RedirectToAction("About");
+            var result = new PocoClassReflector().CreateObject(typeMetaInfo);
+
+            var serializedData = string.Empty;
+            var serializer = new DataContractSerializer(result.GetType());
+
+            using (var sw = new StringWriter())
+            {
+                using (var xw = XmlWriter.Create(sw))
+                {
+                    serializer.WriteObject(xw, result);
+                }
+
+                serializedData = sw.ToString();
+            }
+
+            return Content(serializedData, "text/xml");
         }
+        
     }
 }

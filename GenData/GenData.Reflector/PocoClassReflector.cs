@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -11,15 +14,117 @@ namespace GenData.Reflector
     {
         private readonly Dictionary<Type, TypeMetaInfo> referenceTypeInstancesMappedByType;
 
-        public PocoClassReflector():this(null)
+        public PocoClassReflector() : this(null)
         {
-            
+
         }
 
         public PocoClassReflector(Dictionary<Type, TypeMetaInfo> referenceTypeInstancesMappedByType)
         {
-            this.referenceTypeInstancesMappedByType = referenceTypeInstancesMappedByType?? new Dictionary<Type, TypeMetaInfo>();
+            this.referenceTypeInstancesMappedByType = referenceTypeInstancesMappedByType ?? new Dictionary<Type, TypeMetaInfo>();
         }
+
+        public object CreateObject(TypeMetaInfo typeMetaInfo)
+        {
+
+            Func<TypeMetaInfo, object> createInstance = null;
+
+            createInstance = (info) =>
+            {
+                if (info == null)
+                {
+                    return null;
+                }
+
+                var typeToCreate = Type.GetType(info.TypeName, false);
+                if (typeToCreate == null)
+                {
+                    return null;
+                }
+
+                object instance = Activator.CreateInstance(typeToCreate);
+
+                if (info.Properties != null && info.Properties.Any())
+                {
+                    info.Properties.ForEach(prop =>
+                    {
+                        var propertyInfo = typeToCreate.GetProperty(prop.Name, BindingFlags.Public | BindingFlags.Instance);
+                        if (propertyInfo == null)
+                        {
+                            // Don't do anything
+                        }
+                        else
+                        {
+                            //
+                            // Check if it's a string
+                            //
+                            var propertyType = propertyInfo.PropertyType;
+                            var isString = propertyType == typeof(string);
+                            var isCollection = IsCollection(propertyType);
+                            var isClass = propertyType.IsClass;
+                            var isGeneric = propertyType.IsGenericType;
+
+                            var propertyInstance = propertyType.IsValueType ? Activator.CreateInstance(propertyType) : null;
+
+
+                            if (isString)
+                            {
+                                propertyInstance = prop.Value;
+                            }
+                            else if (isCollection)
+                            {
+                                var arrayElementType = isGeneric ? propertyType.GenericTypeArguments[0] : propertyType.GetElementType();
+                                var array = Array.CreateInstance(arrayElementType, prop.Properties.Count);
+
+                                Enumerable.Range(0,prop.Properties.Count).ToList().ForEach(index =>
+                                {
+                                    var arrayElementInstance = createInstance(prop.Properties[index]);
+                                    array.SetValue(arrayElementInstance, index);
+                                });
+
+                                if (propertyType.IsArray /*|| typeof(IEnumerable).IsAssignableFrom(propertyType)*/)
+                                {
+                                    propertyInstance = array;
+                                }
+                                else
+                                {
+                                    var isGenericInterfaceDeclaredCollection = propertyType.IsInterface;
+
+                                    propertyInstance = isGenericInterfaceDeclaredCollection ? array : Activator.CreateInstance(propertyType, array);
+                                }
+                            }
+                            else if (isClass && isGeneric)
+                            {
+                                //propertyInstance = Activator.CreateInstance(propertyType);
+
+                                //var genericInstance = createInstance(prop);
+                                //propertyInfo.SetValue(propertyInstance,genericInstance);
+                            }
+                            else if (isClass)
+                            {
+                                propertyInstance = createInstance(prop);
+                            }
+                            else
+                            {
+                                var typeConverter = TypeDescriptor.GetConverter(propertyType);
+                                propertyInstance = typeConverter.IsValid(prop.Value) ? typeConverter.ConvertFromInvariantString(prop.Value) : Activator.CreateInstance(propertyType);
+                            }
+
+                            propertyInfo.SetValue(instance, propertyInstance);
+                        }
+                    });
+                }
+
+                return instance;
+
+            };
+
+
+            var result = createInstance(typeMetaInfo);
+
+            return result;
+        }
+
 
         public override TypeMetaInfo GetMetaInfoForType(Type type)
         {
@@ -33,14 +138,13 @@ namespace GenData.Reflector
                 var isCollection = IsCollection(propertyType);
                 var isGeneric = propertyType.IsGenericType;
                 TypeMetaInfo instance = null;
-                TypeMetaInfo dummy = null;
 
                 if (isStringType)
                 {
                     instance = new TypeMetaInfo
                     {
                         Name = propertyInfo.Name,
-                        TypeName = propertyType.FullName,
+                        TypeName = propertyType.AssemblyQualifiedName,
                         IsClass = false,
                         IsCollection = false,
                         IsGeneric = false,
@@ -60,6 +164,8 @@ namespace GenData.Reflector
 
                     var collectionElementTypeIsClass = collectionElementType.IsClass && collectionElementType != typeof(string);
 
+                    TypeMetaInfo dummy = null;
+
                     if (referenceTypeInstancesMappedByType.ContainsKey(collectionElementType))
                     {
                         dummy = referenceTypeInstancesMappedByType[collectionElementType];
@@ -69,7 +175,7 @@ namespace GenData.Reflector
                         dummy = new TypeMetaInfo
                         {
                             Name = collectionElementType.Name,
-                            TypeName = collectionElementType.FullName,
+                            TypeName = collectionElementType.AssemblyQualifiedName,
                             IsClass = collectionElementTypeIsClass,
                             IsCollection = IsCollection(collectionElementType),
                             IsGeneric = collectionElementType.IsGenericType,
@@ -83,7 +189,7 @@ namespace GenData.Reflector
                     instance = new TypeMetaInfo
                     {
                         Name = propertyInfo.Name,
-                        TypeName = propertyType.FullName,
+                        TypeName = propertyType.AssemblyQualifiedName,
                         IsClass = propertyType.IsClass,
                         IsCollection = true,
                         IsGeneric = propertyType.IsGenericType,
@@ -107,7 +213,7 @@ namespace GenData.Reflector
                         instance = new TypeMetaInfo
                         {
                             Name = propertyInfo.Name,
-                            TypeName = propertyType.FullName,
+                            TypeName = propertyType.AssemblyQualifiedName,
                             IsClass = propertyType.IsClass,
                             IsCollection = IsCollection(propertyType),
                             IsGeneric = propertyType.IsGenericType,
@@ -126,7 +232,7 @@ namespace GenData.Reflector
                 instance = new TypeMetaInfo
                 {
                     Name = propertyInfo.Name,
-                    TypeName = propertyType.FullName,
+                    TypeName = propertyType.AssemblyQualifiedName,
                     IsClass = false,
                     IsCollection = false,
                     IsGeneric = propertyType.IsGenericType,
@@ -142,7 +248,7 @@ namespace GenData.Reflector
             var objInstance = new TypeMetaInfo
             {
                 Name = type.Name,
-                TypeName = type.FullName,
+                TypeName = type.AssemblyQualifiedName,
                 IsClass = type.IsClass,
                 IsCollection = IsCollection(type),
                 IsGeneric = type.IsGenericType,

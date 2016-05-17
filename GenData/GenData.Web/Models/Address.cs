@@ -12,6 +12,10 @@ namespace GenData.Web.Models
         public IEnumerable<ContactNumber> EnumerableContactNumbers { get; set; }
         public List<ContactNumber> ListContactNumbers { get; set; }
         public ICollection<ContactNumber> CollectionContactNumbers { get; set; }
-        
+    }
+
+    public class Result<T>
+    {
+        public T ResultValue { get; set; }
     }
 }
