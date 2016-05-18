@@ -7,6 +7,8 @@ namespace GenData.Reflector
 {
     public abstract  class ReflectorStrategy
     {
+        public abstract IEnumerable<TypeMetaInfo> GetTypesFromAssembly(string assemblyLocation);
+
         public abstract TypeMetaInfo GetMetaInfoForType(Type type);
 
         protected virtual bool IsCollection(Type type)
