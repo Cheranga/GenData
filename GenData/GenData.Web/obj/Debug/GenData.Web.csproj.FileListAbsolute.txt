@@ -40,3 +40,43 @@ D:\My Work\GIT_HUB\GenData\GenData\GenData.Web\obj\Debug\GenData.Web.pdb
 D:\My Work\GIT_HUB\GenData\GenData\GenData.Web\obj\Debug\GenData.Web.csprojResolveAssemblyReference.cache
 D:\My Work\GIT_HUB\GenData\GenData\GenData.Web\bin\GenData.Reflector.dll
 D:\My Work\GIT_HUB\GenData\GenData\GenData.Web\bin\GenData.Reflector.pdb
+D:\GIT\GenData\GenData\GenData.Web\bin\roslyn\csc.exe
+D:\GIT\GenData\GenData\GenData.Web\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\GIT\GenData\GenData\GenData.Web\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\GIT\GenData\GenData\GenData.Web\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\GIT\GenData\GenData\GenData.Web\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\GIT\GenData\GenData\GenData.Web\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\GIT\GenData\GenData\GenData.Web\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\GIT\GenData\GenData\GenData.Web\bin\roslyn\System.Collections.Immutable.dll
+D:\GIT\GenData\GenData\GenData.Web\bin\roslyn\System.Reflection.Metadata.dll
+D:\GIT\GenData\GenData\GenData.Web\bin\roslyn\vbc.exe
+D:\GIT\GenData\GenData\GenData.Web\bin\roslyn\VBCSCompiler.exe
+D:\GIT\GenData\GenData\GenData.Web\bin\roslyn\VBCSCompiler.exe.config
+D:\GIT\GenData\GenData\GenData.Web\bin\GenData.Web.dll.config
+D:\GIT\GenData\GenData\GenData.Web\bin\GenData.Web.dll
+D:\GIT\GenData\GenData\GenData.Web\bin\GenData.Web.pdb
+D:\GIT\GenData\GenData\GenData.Web\bin\Antlr3.Runtime.dll
+D:\GIT\GenData\GenData\GenData.Web\bin\GenData.Reflector.dll
+D:\GIT\GenData\GenData\GenData.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\GIT\GenData\GenData\GenData.Web\bin\Microsoft.Web.Infrastructure.dll
+D:\GIT\GenData\GenData\GenData.Web\bin\System.Web.Helpers.dll
+D:\GIT\GenData\GenData\GenData.Web\bin\System.Web.Mvc.dll
+D:\GIT\GenData\GenData\GenData.Web\bin\System.Web.Optimization.dll
+D:\GIT\GenData\GenData\GenData.Web\bin\System.Web.Razor.dll
+D:\GIT\GenData\GenData\GenData.Web\bin\System.Web.WebPages.Deployment.dll
+D:\GIT\GenData\GenData\GenData.Web\bin\System.Web.WebPages.dll
+D:\GIT\GenData\GenData\GenData.Web\bin\System.Web.WebPages.Razor.dll
+D:\GIT\GenData\GenData\GenData.Web\bin\WebGrease.dll
+D:\GIT\GenData\GenData\GenData.Web\bin\GenData.Reflector.pdb
+D:\GIT\GenData\GenData\GenData.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\GIT\GenData\GenData\GenData.Web\bin\System.Web.Helpers.xml
+D:\GIT\GenData\GenData\GenData.Web\bin\System.Web.Mvc.xml
+D:\GIT\GenData\GenData\GenData.Web\bin\System.Web.Optimization.xml
+D:\GIT\GenData\GenData\GenData.Web\bin\System.Web.Razor.xml
+D:\GIT\GenData\GenData\GenData.Web\bin\System.Web.WebPages.xml
+D:\GIT\GenData\GenData\GenData.Web\bin\System.Web.WebPages.Deployment.xml
+D:\GIT\GenData\GenData\GenData.Web\bin\System.Web.WebPages.Razor.xml
+D:\GIT\GenData\GenData\GenData.Web\bin\Antlr3.Runtime.pdb
+D:\GIT\GenData\GenData\GenData.Web\obj\Debug\GenData.Web.csprojResolveAssemblyReference.cache
+D:\GIT\GenData\GenData\GenData.Web\obj\Debug\GenData.Web.dll
+D:\GIT\GenData\GenData\GenData.Web\obj\Debug\GenData.Web.pdb

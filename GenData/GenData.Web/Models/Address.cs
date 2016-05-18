@@ -17,5 +17,6 @@ namespace GenData.Web.Models
     public class Result<T>
     {
         public T ResultValue { get; set; }
+        public int Test { get; set; }
     }
 }

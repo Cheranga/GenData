@@ -68,13 +68,17 @@ namespace GenData.Web.Controllers
 
             using (var sw = new StringWriter())
             {
-                using (var xw = XmlWriter.Create(sw))
+                using (var xw = XmlWriter.Create(sw,new XmlWriterSettings{Indent = true}))
                 {
                     serializer.WriteObject(xw, result);
                 }
 
                 serializedData = sw.ToString();
             }
+
+            //var xmlDoc = new XmlDocument();
+            //xmlDoc.LoadXml(serializedData);
+
 
             return Content(serializedData, "text/xml");
         }

@@ -153,46 +153,5 @@ namespace GenData.Reflector
             return objInstance;
 
         }
-
-        public object CreateObject(string assemblyPath, TypeMetaInfo typeMetaInfo)
-        {
-            if (typeMetaInfo == null)
-            {
-                return null;
-            }
-
-            var assembly = Assembly.LoadFrom(assemblyPath);
-            if (assembly == null)
-            {
-                return new NullReferenceException("Assembly cannot be loaded");
-            }
-
-            if (typeMetaInfo.IsClass)
-            {
-                var instance = Activator.CreateInstance(Type.GetType(typeMetaInfo.TypeName));
-
-            }
-
-            //Func<Assembly, TypeMetaInfo, object> getObjectFunc = (ass, metaInfo) =>
-            //{
-            //    if (ass == null || metaInfo == null)
-            //    {
-            //        throw new NullReferenceException("metaInfo is null");
-            //    }
-
-            //    var isClass = metaInfo.IsClass;
-            //    if (isClass)
-            //    {
-            //        var type = ass.GetType(metaInfo.TypeName);
-            //        type.defa
-
-            //    }
-                
-            //    return null;
-            //};
-
-
-            return null;
-        }
     }
 }
