@@ -11,6 +11,9 @@
 </button>
 <p></p>
 <div class="col-sm-6" data-bind="template: { name: 'formElementNodeTemplate', data: $data }"></div>
+<div class="col-sm-6 xml" id="divResults">
+    <pre lang="xml" class="hide" id="txtResults"></pre>
+</div>
 
 @section Scripts
 {
@@ -113,10 +116,11 @@
                     $.ajax({
                         url: '@Url.Action("CreateObjectRepresentation")',
                         method: 'POST',
-                        dataType: 'json',
+                        dataType: 'text',
                         data: { typeMetaInfo: ko.mapping.toJSON(node) }
-                    }).done(function () {
-
+                    }).done(function (response) {
+                        $('#txtResults').removeClass('hide');
+                        $('#txtResults').text(response);
                     }).fail(function () {
 
                     });

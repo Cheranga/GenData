@@ -17,5 +17,21 @@ namespace GenData.Reflector
         public List<TypeMetaInfo> Properties { get; set; }
 
         public TypeMetaInfo Dummy { get; set; }
+
+        public TypeMetaInfo GetClone()
+        {
+            return new TypeMetaInfo
+            {
+                Name = this.Name,
+                TypeName = this.TypeName,
+                IsClass = this.IsClass,
+                IsGeneric = this.IsGeneric,
+                IsCollection = this.IsCollection,
+                CanDelete = this.CanDelete,
+                Value = this.Value,
+                Properties = this.Properties,
+                Dummy = this.Dummy
+            };
+        }
     }
 }

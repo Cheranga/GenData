@@ -48,6 +48,7 @@ namespace GenData.Reflector
                 {
                     info.Properties.ForEach(prop =>
                     {
+
                         var propertyInfo = typeToCreate.GetProperty(prop.Name, BindingFlags.Public | BindingFlags.Instance);
                         if (propertyInfo == null)
                         {
@@ -99,6 +100,9 @@ namespace GenData.Reflector
 
                                 //var genericInstance = createInstance(prop);
                                 //propertyInfo.SetValue(propertyInstance,genericInstance);
+
+                                propertyInstance = createInstance(prop);
+
                             }
                             else if (isClass)
                             {
@@ -168,7 +172,7 @@ namespace GenData.Reflector
 
                     if (referenceTypeInstancesMappedByType.ContainsKey(collectionElementType))
                     {
-                        dummy = referenceTypeInstancesMappedByType[collectionElementType];
+                        dummy = referenceTypeInstancesMappedByType[collectionElementType].GetClone();
                     }
                     else
                     {
@@ -204,7 +208,8 @@ namespace GenData.Reflector
                 {
                     if (referenceTypeInstancesMappedByType.ContainsKey(propertyType))
                     {
-                        instance = referenceTypeInstancesMappedByType[propertyType];
+                        instance = referenceTypeInstancesMappedByType[propertyType].GetClone();
+                        instance.Name = propertyInfo.Name;
                     }
                     else
                     {
