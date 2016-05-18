@@ -4,14 +4,19 @@ using Newtonsoft.Json;
 
 namespace GenData.Web.Core
 {
-    public class TreeNodeModelBinder : DefaultModelBinder
+    public class SubmittedTypeDataModelBinder : DefaultModelBinder
     {
         public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
             var postedFormData = controllerContext.HttpContext.Request.Form;
+            var assemblyType = postedFormData["AssemblyType"];
             var typeMetaInfoInstance = JsonConvert.DeserializeObject<TypeMetaInfo>(postedFormData["typeMetaInfo"]);
 
-            return typeMetaInfoInstance;
+            return new SubmittedTypeData
+            {
+                AssemblyType = assemblyType,
+                TypeMetaInfo = typeMetaInfoInstance
+            };
         }
     }
 }

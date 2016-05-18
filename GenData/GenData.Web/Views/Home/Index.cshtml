@@ -10,10 +10,11 @@
     Submit
 </button>
 <p></p>
-<div class="col-sm-6" data-bind="template: { name: 'formElementNodeTemplate', data: $data }"></div>
-<div class="col-sm-6 xml" id="divResults">
+<div class="col-sm-4" data-bind="template: { name: 'formElementNodeTemplate', data: $data }"></div>
+<div class="col-sm-8 xml" id="divResults">
     <pre lang="xml" class="hide" id="txtResults"></pre>
 </div>
+<div class="clearfix visible-sm-block"></div>
 
 @section Scripts
 {
@@ -117,7 +118,10 @@
                         url: '@Url.Action("CreateObjectRepresentation")',
                         method: 'POST',
                         dataType: 'text',
-                        data: { typeMetaInfo: ko.mapping.toJSON(node) }
+                        data: {
+                            AssemblyType:"CIM",
+                            typeMetaInfo: ko.mapping.toJSON(node)
+                        }
                     }).done(function (response) {
                         $('#txtResults').removeClass('hide');
                         $('#txtResults').text(response);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -42,6 +43,19 @@ namespace GenData.Web.Controllers
                 return Json(null, JsonRequestBehavior.AllowGet);
             }
 
+            //
+            // TEST
+            //
+            var assemblyLocation = ConfigurationManager.AppSettings.Get("CIM"/*type.ToUpper()*/);
+            var allTypes = new PocoClassReflector().GetTypesFromAssembly(assemblyLocation);
+            return new CamelCaseJsonResult(allTypes.FirstOrDefault());
+
+
+
+            //
+            // END TEST
+            //
+
             var typeToRefer = Type.GetType(type, false);
             if (typeToRefer == null)
             {
@@ -59,9 +73,9 @@ namespace GenData.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateObjectRepresentation([ModelBinder(typeof(TreeNodeModelBinder))] TypeMetaInfo typeMetaInfo)
+        public ActionResult CreateObjectRepresentation([ModelBinder(typeof(SubmittedTypeDataModelBinder))] SubmittedTypeData submittedTypeData)
         {
-            var result = new PocoClassReflector().CreateObject(typeMetaInfo);
+            var result = new PocoClassReflector().CreateObject(submittedTypeData);
 
             var serializedData = string.Empty;
             var serializer = new DataContractSerializer(result.GetType());

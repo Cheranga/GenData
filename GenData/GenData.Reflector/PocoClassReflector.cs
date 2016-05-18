@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -13,10 +15,11 @@ namespace GenData.Reflector
     public class PocoClassReflector : ReflectorStrategy
     {
         private readonly Dictionary<Type, TypeMetaInfo> referenceTypeInstancesMappedByType;
+        private readonly string CimNamespace = "";
 
         public PocoClassReflector() : this(null)
         {
-
+            this.CimNamespace = ConfigurationManager.AppSettings.Get("CimNamespace");
         }
 
         public PocoClassReflector(Dictionary<Type, TypeMetaInfo> referenceTypeInstancesMappedByType)
@@ -24,9 +27,11 @@ namespace GenData.Reflector
             this.referenceTypeInstancesMappedByType = referenceTypeInstancesMappedByType ?? new Dictionary<Type, TypeMetaInfo>();
         }
 
-        public object CreateObject(TypeMetaInfo typeMetaInfo)
+        public object CreateObject(SubmittedTypeData submittedTypeData)
         {
-
+            var cimAssemblyLocation = ConfigurationManager.AppSettings.Get("CIM");
+            var cimAssembly = Assembly.LoadFrom(cimAssemblyLocation);
+            
             Func<TypeMetaInfo, object> createInstance = null;
 
             createInstance = (info) =>
@@ -36,7 +41,8 @@ namespace GenData.Reflector
                     return null;
                 }
 
-                var typeToCreate = Type.GetType(info.TypeName, false);
+                var typeToCreate = cimAssembly.GetType(info.TypeName, false);
+
                 if (typeToCreate == null)
                 {
                     return null;
@@ -124,11 +130,28 @@ namespace GenData.Reflector
             };
 
 
-            var result = createInstance(typeMetaInfo);
+            var result = createInstance(submittedTypeData.TypeMetaInfo);
 
             return result;
         }
 
+
+        public override IEnumerable<TypeMetaInfo> GetTypesFromAssembly(string assemblyLocation)
+        {
+            if (string.IsNullOrEmpty(assemblyLocation) || !File.Exists(assemblyLocation))
+            {
+                return null;
+            }
+
+            var assembly = Assembly.LoadFrom(assemblyLocation);
+            var requestsAndResponses = assembly.GetTypes().Where(type => type.Namespace == this.CimNamespace && ( type.Name.EndsWith("ProcessNewBusinessDepositRequest") || type.Name.EndsWith("ProcessNewBusinessDepositRequest") ))
+                .OrderBy(x => x.Name)
+                .ToList();
+
+            var requiredTypes = requestsAndResponses.Select(this.GetMetaInfoForType);
+            
+            return requiredTypes;
+        }
 
         public override TypeMetaInfo GetMetaInfoForType(Type type)
         {
@@ -148,7 +171,7 @@ namespace GenData.Reflector
                     instance = new TypeMetaInfo
                     {
                         Name = propertyInfo.Name,
-                        TypeName = propertyType.AssemblyQualifiedName,
+                        TypeName = propertyType.FullName,//propertyType.AssemblyQualifiedName,
                         IsClass = false,
                         IsCollection = false,
                         IsGeneric = false,
@@ -179,7 +202,7 @@ namespace GenData.Reflector
                         dummy = new TypeMetaInfo
                         {
                             Name = collectionElementType.Name,
-                            TypeName = collectionElementType.AssemblyQualifiedName,
+                            TypeName = collectionElementType.FullName,//collectionElementType.AssemblyQualifiedName,
                             IsClass = collectionElementTypeIsClass,
                             IsCollection = IsCollection(collectionElementType),
                             IsGeneric = collectionElementType.IsGenericType,
@@ -193,7 +216,7 @@ namespace GenData.Reflector
                     instance = new TypeMetaInfo
                     {
                         Name = propertyInfo.Name,
-                        TypeName = propertyType.AssemblyQualifiedName,
+                        TypeName = propertyType.FullName,//propertyType.AssemblyQualifiedName,
                         IsClass = propertyType.IsClass,
                         IsCollection = true,
                         IsGeneric = propertyType.IsGenericType,
@@ -218,7 +241,7 @@ namespace GenData.Reflector
                         instance = new TypeMetaInfo
                         {
                             Name = propertyInfo.Name,
-                            TypeName = propertyType.AssemblyQualifiedName,
+                            TypeName = propertyType.FullName,//propertyType.AssemblyQualifiedName,
                             IsClass = propertyType.IsClass,
                             IsCollection = IsCollection(propertyType),
                             IsGeneric = propertyType.IsGenericType,
@@ -237,7 +260,7 @@ namespace GenData.Reflector
                 instance = new TypeMetaInfo
                 {
                     Name = propertyInfo.Name,
-                    TypeName = propertyType.AssemblyQualifiedName,
+                    TypeName = propertyType.FullName,//propertyType.AssemblyQualifiedName,
                     IsClass = false,
                     IsCollection = false,
                     IsGeneric = propertyType.IsGenericType,
@@ -253,7 +276,7 @@ namespace GenData.Reflector
             var objInstance = new TypeMetaInfo
             {
                 Name = type.Name,
-                TypeName = type.AssemblyQualifiedName,
+                TypeName = type.FullName,//type.AssemblyQualifiedName,
                 IsClass = type.IsClass,
                 IsCollection = IsCollection(type),
                 IsGeneric = type.IsGenericType,
