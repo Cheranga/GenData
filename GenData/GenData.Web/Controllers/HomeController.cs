@@ -47,7 +47,7 @@ namespace GenData.Web.Controllers
             // TEST
             //
             var assemblyLocation = ConfigurationManager.AppSettings.Get("CIM"/*type.ToUpper()*/);
-            var allTypes = new PocoClassReflector().GetTypesFromAssembly(assemblyLocation);
+            var allTypes = new CimClassReflector().GetTypesFromAssembly(assemblyLocation);
             return new CamelCaseJsonResult(allTypes.FirstOrDefault());
 
 
@@ -65,7 +65,7 @@ namespace GenData.Web.Controllers
             //
             // TODO: Add Dipendency Injection
             //
-            var reflector = new PocoClassReflector();
+            var reflector = new CimClassReflector();
 
             var metaInfoForType = reflector.GetMetaInfoForType(typeToRefer);
 
@@ -75,7 +75,7 @@ namespace GenData.Web.Controllers
         [HttpPost]
         public ActionResult CreateObjectRepresentation([ModelBinder(typeof(SubmittedTypeDataModelBinder))] SubmittedTypeData submittedTypeData)
         {
-            var result = new PocoClassReflector().CreateObject(submittedTypeData);
+            var result = new CimClassReflector().CreateObject(submittedTypeData);
 
             var serializedData = string.Empty;
             var serializer = new DataContractSerializer(result.GetType());
